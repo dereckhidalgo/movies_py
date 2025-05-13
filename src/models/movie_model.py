@@ -3,7 +3,7 @@ from pydantic import BaseModel, field_validator
 
 
 class Movie(BaseModel):
-    id: Optional[int] = None
+    id: int
     title: str
     director: str
 
@@ -17,13 +17,13 @@ class Movie(BaseModel):
         }
     }
 
-    @field_validator('title')
-    def validate_title(cls, value):
-        if len(value)<5:
-            raise ValueError('Title field must have a min length of 5 characters')
-        if len(value)>20:
-            raise ValueError('Title must have a max length of 20 characters')
-        return value
+    # @field_validator('title')
+    # def validate_title(cls, value):
+    #     if len(value)<5:
+    #         raise ValueError('Title field must have a min length of 5 characters')
+    #     if len(value)>20:
+    #         raise ValueError('Title must have a max length of 20 characters')
+    #     return value
     
 
 movies: List[Movie] = []    

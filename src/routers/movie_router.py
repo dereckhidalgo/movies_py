@@ -1,11 +1,10 @@
 
 from typing import List
-from fastapi import Body, Path, Query, APIRouter
+from fastapi import APIRouter, Body, Path, Query
 from fastapi.responses import JSONResponse
 from src.models.movie_model import Movie, movies
 
 movie_router = APIRouter()
-
 
 @movie_router.get("/", tags=['Movies'])
 def get_movies() -> List[Movie]:
@@ -18,11 +17,12 @@ def get_movie(movie_id: int = Path(gt=0)) -> Movie | dict:
             return JSONResponse(movie.model_dump(),200) 
     return JSONResponse({},status_code=404)
 
-@movie_router.get("/by_title",tags=['Movies'])
-def get_movie_by_title(title: str = Query(min_length=5, max_length=20)) -> Movie | dict:
+@movie_router.get("/titulo/",tags=['Movies'])
+def get_movie_by_title(title: str = Query()):
     for movie in movies:
         if movie.title==title:
-            return JSONResponse(movie.model_dump())
+            content = movie.model_dump()
+            return JSONResponse(content, status_code=200)
     return JSONResponse({},status_code=404)
 
 @movie_router.post('/',tags=['Movies'])
